@@ -12,11 +12,13 @@ import com.spring.api.school.rest.repository.PaysRepository;
 import java.util.List;
 import javax.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * 
  * @author The_Me
  */
+@Service
 public class GestLocaliteInterfaceImplementation implements GestLocaliteInterface{
     
     @Autowired
