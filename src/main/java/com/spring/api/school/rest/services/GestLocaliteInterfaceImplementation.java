@@ -28,6 +28,7 @@ public class GestLocaliteInterfaceImplementation implements GestLocaliteInterfac
         String message;
         try{
             paysRepo.save(pays);
+            
             message = "Done!";
         }catch(Exception e){
             if(e instanceof IllegalArgumentException){
@@ -54,6 +55,7 @@ public class GestLocaliteInterfaceImplementation implements GestLocaliteInterfac
         
         try {
             Pays updatedPays = paysRepo.getById(idPays);
+            
             updatedPays.setNom(pays.getNom());
             updatedPays.setCode(pays.getCode());
             updatedPays.setIndicatif(pays.getIndicatif());
@@ -64,7 +66,7 @@ public class GestLocaliteInterfaceImplementation implements GestLocaliteInterfac
             message = "Done!";
         } catch (Exception e) {
             if(e instanceof EntityNotFoundException){
-                message = "Not found!";
+                message = "Object Not found!";
             }else{
                 message = "Something went wrong! "+e.getMessage();
                 System.out.println(e);
@@ -80,12 +82,13 @@ public class GestLocaliteInterfaceImplementation implements GestLocaliteInterfac
         
         try {
             paysRepo.delete(pays);
+            
             message = "Done!";
         } catch (Exception e) {
             if(e instanceof IllegalArgumentException){
-                message = "Invalid Pays data";
+                message = "Invalid Pays Object";
             }else{
-                message = "Something went wrong "+e.getMessage();
+                message = "Something went wrong! "+e.getMessage();
                 System.out.println(e);
             }
         }
@@ -95,28 +98,75 @@ public class GestLocaliteInterfaceImplementation implements GestLocaliteInterfac
 
     @Override
     public String createLocalite(Localite localite) {
-        String mesage;
+        String message;
         
         try {
             localiteRepo.save(localite);
             
+            message = "Done!";
         } catch (Exception e) {
+            if(e instanceof IllegalArgumentException){
+                message = "Invalid Localite Object";
+            }else{
+                message = "Something went wrong! "+e.getMessage();
+                System.out.println(e);
+            }
         }
+        
+        return message;
     }
 
     @Override
     public List<Localite> readLocalite() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public String deleteLocalite(Localite localite) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        List<Localite> localites = localiteRepo.findAll();
+        
+        return localites;
     }
 
     @Override
     public String updateLocalite(long idLocalite, Localite localite) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        String message;
+        
+        try{
+             Localite updateLocalite = localiteRepo.getById(idLocalite);
+             
+             updateLocalite.setCodeLoc(localite.getCodeLoc());
+             updateLocalite.setIdPays(localite.getIdPays());
+             updateLocalite.setNomLoc(localite.getNomLoc());
+             updateLocalite.setPopulation(localite.getPopulation());
+             localiteRepo.save(updateLocalite);
+             
+             message = "Done!";
+        }catch(Exception e){
+            if(e instanceof EntityNotFoundException){
+                message = "Object Not Found!";
+            }else{
+                message = "Something went wrong! "+e.getMessage();
+                System.out.println(e);
+            }
+        }
+        
+        return message;
+    }
+
+    @Override
+    public String deleteLocalite(Localite localite) {
+        String message;
+        
+        try{
+            localiteRepo.delete(localite);
+            
+            message = "Done!";
+        }catch(Exception e){
+            if(e instanceof IllegalArgumentException){
+                message = "Invalid Localite Object";
+            }else{
+                message = "Something went wrong! "+e.getMessage();
+                System.out.println(e);
+            }
+        }
+        
+        return message;
     }
 
 }
